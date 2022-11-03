@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-server
+  labels:
+    app: kafka-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-server
+  template:
+    metadata:
+      labels:
+        app: kafka-server
+    spec:
+      containers:
+        - name: kafka-server
+          image: bitnami/kafka:latest
+          ports:
+            - containerPort: 9092
+          env:
+          - name: ALLOW_PLAINTEXT_LISTENER
+            value: 'yes'
+          - name: KAFKA_CFG_ZOOKEEPER_CONNECT
+            value: 'kafka-zookeeper:2181'
